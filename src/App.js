@@ -45,7 +45,7 @@ class App extends Component {
 //     if(item.charCode){
 //      this.listItem(target,e)
 //    }
-//  };
+//  }; 
 
 //  listItem = (item) => {
 //     let selected = markers.filter((currentOne)=> currentOne.name === item.name)
