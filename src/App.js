@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import scriptLoader from 'react-async-script-loader';
 import sortBy from 'sort-by';
 import escapeRegExp from 'escape-string-regexp';
 import { places } from './places';
@@ -7,47 +6,54 @@ import './App.css';
 import ShowMap from './ShowMap';
 
 class App extends Component {
-  state = {
-    places: places,
-    query: '',
-    loadSuccess: true,
-    showingInfoWindow: false,
-    activeMarker: {},
-    selectedPlace: []
-  };
+    state = {
+        places: places,
+        query: '',
+        loadSuccess: true,
+        showingInfoWindow: false,
+        activeMarker: {},
+        selectedPlace: []
+    };
 
-  updatequery = (query) => {
-    this.setState({query: query})
-  };
+    updatequery = query => this.setState({query: query});
 
-  markerClick = (props, marker) =>
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
+    markerClick = (props, marker) =>
+        this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true
     });
 
-  onMapClicked = () => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
-    }
-  };
+    evt = event => event.target;
+
+    menuClick = (newMarkers) => {
+        if(this.evt === newMarkers.target) {
+            this.markerClick();
+        }
+    };
+
+    onMapClicked = () => {
+        if (this.state.showingInfoWindow) {
+            this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+            });
+        }
+    };
+
 render() {
     const {places, query, loadSuccess, showingInfoWindow, activeMarker, selectedPlace} = this.state;
 
     let showingLocations;
-    if (query){
+    if (query) {
       const match = new RegExp(escapeRegExp(query),'i')
       showingLocations = places.filter((place)=> match.test(place.name))
     }
-    else{
+    else {
       showingLocations=places
     };
     
-    showingLocations.sort(sortBy('name'))
+    showingLocations.sort(sortBy('id'));
  return (
       //Show the map if request successful
       loadSuccess ? (
@@ -55,12 +61,13 @@ render() {
             <div id="container">
                 <div id="map-container" role="application" tabIndex="-1">
             <ShowMap 
-            places={places}
-            showingInfoWindow={showingInfoWindow}
-            activeMarker={activeMarker}
-            selectedPlace={selectedPlace}
-            markerClick={this.markerClick}
-            onMapClicked={this.onMapClicked}
+            menuClick={ this.menuClick }
+            places={ places }
+            showingInfoWindow={ showingInfoWindow }
+            activeMarker={ activeMarker }
+            selectedPlace={ selectedPlace }
+            markerClick={ this.markerClick }
+            onMapClicked={ this.onMapClicked }
             />
             </div>
             {/*List view that has input and list of locaitons*/}
@@ -71,7 +78,7 @@ render() {
                     className='form-control' 
                     type='text'
                     placeholder='Search'
-                    value={query}
+                    value={ query }
                     onChange={(event)=> this.updatequery(event.target.value)}
                     role="search"
                     aria-labelledby="Search For a Location"
@@ -86,11 +93,14 @@ render() {
                         {/*JSON.stringify(this.state.query)*/}
                         {showingLocations.map((getLocation, index)=>
                         <li 
+                        id={ getLocation.name }
+                        onClick={ this.evt.bind(this) }
+                        onMouseOver={ this.menuClick}
                         key={index} 
-                        tabIndex={index+2}
-                        area-labelledby={`View details for ${getLocation.name}`} 
+                        tabIndex={ index+2 }
+                        area-labelledby={`View details for ${ getLocation.name }`} 
                         >
-                        {getLocation.name}
+                        { getLocation.name }
                         </li>)}
                     </ul>
                 </div>

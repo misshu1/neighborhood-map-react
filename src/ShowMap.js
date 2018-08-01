@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
-
+let newMarkers = [];
 class ShowMap extends Component {
+componentWillMount(){
+    {this.props.menuClick(newMarkers)}
+}
 render() {
-    let newMarkers = [];
     const markers = this.props.places.map((marker, index) => (
         <Marker
           key={index}
@@ -24,6 +26,8 @@ return (
         zoom={15}
     >
     
+    {/* Access the newMarkers variable from App.js */}
+
     {/* Display the markers */}
     {newMarkers}
 
