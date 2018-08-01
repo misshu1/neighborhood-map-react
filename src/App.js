@@ -27,7 +27,7 @@ class App extends Component {
     evt = event => event.target;
 
     menuClick = (newMarkers) => {
-        if(this.evt === newMarkers.target) {
+        if(this.evt() === newMarkers.target) {
             this.markerClick();
         }
     };
