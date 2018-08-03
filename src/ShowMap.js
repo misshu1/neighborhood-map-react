@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 let newMarkers = [];
+
 class ShowMap extends Component {
 componentWillMount(){
     {this.props.menuClick(newMarkers)}
@@ -30,7 +31,7 @@ return (
 
     {/* Display the markers */}
     {newMarkers}
-
+{console.log(newMarkers)}
         <InfoWindow
         marker={this.props.activeMarker}
         visible={this.props.showingInfoWindow}

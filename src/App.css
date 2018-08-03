@@ -1,11 +1,99 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
 #container {
     width: 100%;
     height: 100vh;
 }
 
-.places-menu {
+#map {
     position: fixed;
-    top: 50px;
-    left: 50px;
+    width: 80%;
+    height: 100%;
+    right: 0;
+    left: 20%;
+}
+
+#search-input {
+    height: 2.5em;
+    border: none;
+    width: 94%;
+    padding: 0 3%;
+    border-radius: 8px;
+    background: #eee;
+    font-size: 0.8em;
+}
+
+#menu {
+    position: fixed;
+    z-index: 100;
+    width: calc(20% - 2em);
+    height: 100%;
+    background: #ccc;
+    padding: 1em;
+    bottom: 0;
+    top: 0;
+}
+
+#menu .list-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#menu .list-menu ul li {
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    margin: auto;
+    display: block;
+    border: 0;
+    border-radius: 8px;
+    background: #bbb;
+    color: #000;
+    width: 94%;
+    padding: 0.5em 3%;
+    margin: .5rem auto;
+}
+
+#menu .list-menu ul li:hover {
+    background: #aaa;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+    #menu {
+        height: 20%;
+        width: calc(100% - 2em);
+        left: 0;
+        right: 0;
+    }
+    .list-menu {
+        margin-top: 0.5em;
+        overflow-y: scroll;
+        height: calc(90% - 0.5em);
+    }
+    #menu .list-menu ul li {
+        padding: 0.5em;
+    }
+    #container {
+        position: relative;
+    }
+    #map {
+        height: calc(80% - 1.4% - 1em);
+        position: relative;
+        left: 0;
+        top: calc(20% + 1.4% + 1em);
+        width: 100%;
+    }
+}
+
+.infowindow {
+    font-weight: 700;
+    font-size: 1.1em;
+    text-align: center;
     width: fit-content;
 }
