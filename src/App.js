@@ -15,7 +15,7 @@ class App extends Component{
         query: '',
         map: {},
         places: places,
-        placeInfo: []
+        users: []
     };
 
     // Update query when user type on search field
@@ -24,8 +24,7 @@ class App extends Component{
     };
   
     updateData = (newData) => {
-        this.setState({ placeInfo: newData});
-        return this.state.placeInfo;
+        this.setState({ users: newData});
     };
       
     componentWillReceiveProps({isScriptLoadSucceed}){
@@ -53,7 +52,7 @@ class App extends Component{
 
       componentDidUpdate(){
         // Filter the locations depending on the user input 
-        const {places, query, map, placeInfo} = this.state;
+        const {places, query, map, users} = this.state;
         let showingLocations = places
         if (query) {
           const match = new RegExp(escapeRegExp(query),'i')
@@ -67,26 +66,14 @@ class App extends Component{
         newMarkers = [];
         infoWindow = [];
         showingLocations.map((marker,index)=> {
-        
-
-        // let markerInfo = placeInfo.filter(info => info[0].response.venue.id === marker.venueID).map(content => {
-        //     if(content.length === 0) { 
-        //         return 'We don\'t have any information about this place'
-        //     } else if (content !== '') {
-        //         return `${placeInfo.venue.location.country}
-        //         Lat ${content.venue.labeledLatLngs.lat.toFixed(5)}
-        //         Long ${content.venue.labeledLatLngs.lng.toFixed(5)}
-        //     `
-        //     } else {
-        //         return 'We don\'t have any information about this place'
-        //     }
-        // });
-        let markerInfo = console.log(placeInfo)
+        console.log(index)
+        //User information
+        let userInfo = users.filter(info => info !== [] ).map(content => console.log(content))
                     
         let content =
         `<div tabIndex="0" class="infowindow">
             <h4>${marker.name}</h4>
-            <p>${markerInfo}</p>
+            <p>${userInfo}</p>
         </div>`
           //Add the content to infoWindow
           let addInfoWindow= new window.google.maps.InfoWindow({
@@ -127,7 +114,6 @@ class App extends Component{
       
     componentDidMount(){
 
-        // const url = `https://api.foursquare.com/v2/venues/${place.venueID}?&client_id=1DYY3JEVTWCPWVVWMEMH5B1AHNFFVYI1EK2L2NTR1EA5AE40&client_secret=NWXRKVQ2FTAHONOWOL0TWJZTL5RC3101JUFG24A3A0SYDIJF&v=20180818`
        const url = `https://randomuser.me/api/?results=8`
         console.log(url)
         fetch(url)
