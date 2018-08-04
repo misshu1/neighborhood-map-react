@@ -15,7 +15,7 @@ class App extends Component{
         query: '',
         map: {},
         places: places,
-        users: []
+        placeData: []
     };
 
     // Update query when user type on search field
@@ -24,7 +24,7 @@ class App extends Component{
     };
   
     updateData = (newData) => {
-        this.setState({ users: newData});
+        this.setState({ placeData: newData});
     };
       
     componentWillReceiveProps({isScriptLoadSucceed}){
@@ -52,7 +52,7 @@ class App extends Component{
 
       componentDidUpdate(){
         // Filter the locations depending on the user input 
-        const {places, query, map, users} = this.state;
+        const {places, query, map, placeData} = this.state;
         let showingLocations = places
         if (query) {
           const match = new RegExp(escapeRegExp(query),'i')
@@ -65,18 +65,28 @@ class App extends Component{
         // Clear the markers and the infoWindow arrays
         newMarkers = [];
         infoWindow = [];
-        showingLocations.map((marker,index)=> {
-        console.log(index)
-        //User information
-        let userInfo = users.filter(info => info !== [] ).map(content => console.log(content))
+        showingLocations.map((marker)=> {
+
+        // place info
+        let placeInfo = placeData.filter(info => info !== [] && info.response.venue.id === marker.venueID).map(content => {
+            if(content.response.venue.location.labeledLatLngs.length === 0) {
+                return `No information found about this place!`
+            } else if(content !== 0) {
+                const message = `Coordinates: ${content.response.venue.location.labeledLatLngs[0].lat.toFixed(4)}, ${content.response.venue.location.labeledLatLngs[0].lng.toFixed(4)}`;
+
+                return message;
+            } else {
+                return `No information found about this place!`
+            }
+        })
                     
         let content =
         `<div tabIndex="0" class="infowindow">
             <h4>${marker.name}</h4>
-            <p>${userInfo}</p>
+            <p>${placeInfo}</p>
         </div>`
           //Add the content to infoWindow
-          let addInfoWindow= new window.google.maps.InfoWindow({
+          let addInfoWindow = new window.google.maps.InfoWindow({
             content: content,
           });
           //Extend the map bound
@@ -113,9 +123,12 @@ class App extends Component{
     
       
     componentDidMount(){
+        const clientID = `41SZYMH0SSHWZTXVVHPS1Y4V4FRJ5NEHUMWA3ISJ4O4TBEGY`;
+        const clientSecret = `CXIPQUBNEPEDOIXFMN2S3J0APUK4ZLSJEURE2TYUPG4H4F4T`;
 
-       const url = `https://randomuser.me/api/?results=8`
-        console.log(url)
+        this.state.places.map(place => {`${place.venueID}`
+        const url = `https://api.foursquare.com/v2/venues/${place.venueID}?&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
+
         fetch(url)
             .then(data => {
             if(data.ok) {
@@ -131,6 +144,7 @@ class App extends Component{
             .catch(err => {
                 console.log(err);
             })
+        })
         }
     
       //Trigger a specific marker when the list item is clicked
