@@ -46,10 +46,6 @@ class App extends Component{
         }
       };
 
- getUser = (user) => {
-     return `${user.name}`
- }
-
       componentDidUpdate(){
         // Filter the locations depending on the user input 
         const {places, query, map, placeData} = this.state;
@@ -86,7 +82,7 @@ class App extends Component{
             <p>${placeInfo}</p>
         </div>`
           //Add the content to infoWindow
-          let addInfoWindow = new window.google.maps.InfoWindow({
+          let addInfoWindow= new window.google.maps.InfoWindow({
             content: content,
           });
           //Extend the map bound
@@ -123,8 +119,8 @@ class App extends Component{
     
       
     componentDidMount(){
-        const clientID = `41SZYMH0SSHWZTXVVHPS1Y4V4FRJ5NEHUMWA3ISJ4O4TBEGY`;
-        const clientSecret = `CXIPQUBNEPEDOIXFMN2S3J0APUK4ZLSJEURE2TYUPG4H4F4T`;
+        const clientID = `C32YY34RK4PRGIA4JIXM2YKQVMO5ZWKEOWAJOZH0ULWIDTR1`;
+        const clientSecret = `BYMF2RAQG1KSLXXIPACINKSAUU3NPNSUBJB2V24F3TD0XDX0`;
 
         this.state.places.map(place => {`${place.venueID}`
         const url = `https://api.foursquare.com/v2/venues/${place.venueID}?&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
@@ -224,5 +220,5 @@ class App extends Component{
 }
 
 export default scriptLoader(
-    ["https://maps.googleapis.com/maps/api/js?key=AIzaSyAv9IpffqmZCDYbtrsnUYpRlhwRKgw-pdA"]
+    ["https://maps.googleapis.com/maps/api/js?key=AIzaSyA8OGJ85mGxQD0gRwJT03Raj6Vdi3RHvS4"]
 )(App)
