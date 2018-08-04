@@ -119,8 +119,8 @@ class App extends Component{
     
       
     componentDidMount(){
-        const clientID = `C32YY34RK4PRGIA4JIXM2YKQVMO5ZWKEOWAJOZH0ULWIDTR1`;
-        const clientSecret = `BYMF2RAQG1KSLXXIPACINKSAUU3NPNSUBJB2V24F3TD0XDX0`;
+        const clientID = `HZB3N44GGTFII43Q2K1BIUCXAA1UH2ONX1QNGU0QMS11IHX2`;
+        const clientSecret = `E1BJTTMEUXI3JJTWIBWMYADCFUDHDFXZ1AH3AQ0PDXH4IR1T`;
 
         this.state.places.map(place => {`${place.venueID}`
         const url = `https://api.foursquare.com/v2/venues/${place.venueID}?&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
