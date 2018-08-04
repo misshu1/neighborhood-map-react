@@ -4,6 +4,7 @@ Single page application that uses Google Maps API and Foursquare API to list a f
 
 ## API
 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial)
+
 [Foursquare Places API](https://developer.foursquare.com/places-api)
 
 ## How to run the aplication
