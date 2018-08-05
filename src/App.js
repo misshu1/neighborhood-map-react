@@ -122,9 +122,8 @@ class App extends Component{
     
       
     componentDidMount(){
-        const clientID = `0CITI03LD4PNZEMWEYLZ2FZMS3K21CJKXIMNCDHPWMHKMSPH`;
-        const clientSecret = `D3ELOKE4ZRNLJJJX43VPEXWKMO4G32AJM2NQE03F3HT33UIP
-        `;
+        const clientID = `VCP2RPS5CIJTHXP0PJPKVRRMZVQTDXPF1WSBPSOT4ALEB3V5`;
+        const clientSecret = `D0CR0LRDCUGVWF2MQS4JAP34QHLSLQLEXK3CTSUDE3GJFP0D`;
 
         const url = `https://api.foursquare.com/v2/venues/explore?ll=45.105083,24.364982&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
 
@@ -133,7 +132,7 @@ class App extends Component{
             if(data.ok) {
                 return data.json();
             } else {
-                throw new Error(data.statusText)
+                alert('Failed to get data from Foursquare' + new Error(data.statusText))
             }
             })
             .then(data => {
