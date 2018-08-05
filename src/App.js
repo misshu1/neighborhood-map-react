@@ -64,17 +64,20 @@ class App extends Component{
         showingLocations.map((marker)=> {
 
         // place info
-        let placeInfo = placeData.filter(info => info !== [] && info.response.venue.id === marker.venueID).map(content => {
-            if(content.response.venue.location.labeledLatLngs.length === 0) {
+        let placeInfo = placeData.filter(info => info !== [] && info.venueId === marker.venueID).map(item => {
+            if(placeData.length === 0) {
                 return `No information found about this place!`
             } else if(content !== 0) {
-                const message = `Coordinates: ${content.response.venue.location.labeledLatLngs[0].lat.toFixed(4)}, ${content.response.venue.location.labeledLatLngs[0].lng.toFixed(4)}`;
+                const message = 
+                `Address: ${item.address}
+                Coordinates: lat: ${item.position.lat.toFixed(5)} , lng:${item.position.lng.toFixed(5)}`;
 
                 return message;
             } else {
                 return `No information found about this place!`
             }
         })
+       
                     
         let content =
         `<div tabIndex="0" class="infowindow">
@@ -119,11 +122,11 @@ class App extends Component{
     
       
     componentDidMount(){
-        const clientID = `HZB3N44GGTFII43Q2K1BIUCXAA1UH2ONX1QNGU0QMS11IHX2`;
-        const clientSecret = `E1BJTTMEUXI3JJTWIBWMYADCFUDHDFXZ1AH3AQ0PDXH4IR1T`;
+        const clientID = `0CITI03LD4PNZEMWEYLZ2FZMS3K21CJKXIMNCDHPWMHKMSPH`;
+        const clientSecret = `D3ELOKE4ZRNLJJJX43VPEXWKMO4G32AJM2NQE03F3HT33UIP
+        `;
 
-        this.state.places.map(place => {`${place.venueID}`
-        const url = `https://api.foursquare.com/v2/venues/${place.venueID}?&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
+        const url = `https://api.foursquare.com/v2/venues/explore?ll=45.105083,24.364982&client_id=${clientID}&client_secret=${clientSecret}&v=20180819`
 
         fetch(url)
             .then(data => {
@@ -134,13 +137,20 @@ class App extends Component{
             }
             })
             .then(data => {
-                let newData = [data];
-              return  this.updateData(newData);            
+                const newData = data.response.groups[0].items.map(item => {
+                    return {
+                      position: { lat: item.venue.location.lat, lng: item.venue.location.lng },
+                      title: item.venue.name,
+                      venueId: item.venue.id,
+                      address: item.venue.location.formattedAddress[0],
+                      state: item.venue.location.state,
+                    }
+                  })
+                return  this.updateData(newData);              
             })
             .catch(err => {
                 console.log(err);
             })
-        })
         }
     
       //Trigger a specific marker when the list item is clicked
